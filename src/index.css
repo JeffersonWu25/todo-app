@@ -102,11 +102,16 @@ hr {
   background: var(--color-link);
 }
 
+.todo-buttons button:nth-of-type(2) {
+  color: var(--color-link);
+  background: var(--color-link-transparent);
+}
+
 .todo-buttons button:last-of-type {
   /* color: #9580ff;
   background: rgba(149, 128, 255, .1); */
-  color: var(--color-link);
-  background: var(--color-link-transparent);
+  color: var(--background-primary);
+  background: var(--color-link);
 }
 
 
@@ -124,6 +129,48 @@ hr {
   width: 100%;
   flex: 1;
   max-width: unset !important;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--background-muted);
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.modal textarea {
+  width: 300px;
+  height: 100px;
+}
+
+.modal .modal-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.modal button:first-of-type {
+  background: var(--color-link);
+  color: var(--background-primary);
+}
+
+.modal button:last-of-type {
+  background: var(--background-primary);
+  color: var(--color-link);
 }
 
 @keyframes widen {

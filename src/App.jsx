@@ -1,3 +1,4 @@
+import { EditModal } from "./components/EditModal"
 import { Header } from "./components/Header"
 import { Tabs } from "./components/Tabs"
 import { TodoCard } from "./components/TodoCard"
@@ -15,6 +16,8 @@ function App() {
 //   ]
     const [ todos, setTodos ] = useState([{ input: 'Hello! Add your first todo!', complete: true }])
     const [ selectedTab, setSelectedTab ] = useState("Open")
+    const [ editingIndex, setEditingIndex ] = useState(null)
+    const [ editingValue, setEditingValue ] = useState('')
     
     function handleAddTodo(newTodo) {
         const newTodoList = [... todos, {input: newTodo, complete: false}]
@@ -37,6 +40,26 @@ function App() {
         handleSaveData(newTodoList)
     }
 
+    function handleStartEdit(index) {
+        setEditingIndex(index)
+        setEditingValue(todos[index].input)
+    }
+
+    function handleCancelEdit() {
+        setEditingIndex(null)
+        setEditingValue('')
+    }
+
+    function handleSubmitEdit(index, newInput) {
+        let newTodoList = [...todos]
+        newTodoList[index] = {...todos[index], input: newInput}
+        setTodos(newTodoList)
+        setEditingIndex(null)
+        setEditingValue('')
+        console.log(newTodoList)
+        handleSaveData(newTodoList)
+    }
+
     function handleSaveData(currTodos){
         localStorage.setItem('todo-app', JSON.stringify({ todos: currTodos }))
     }
@@ -51,8 +74,9 @@ function App() {
         <>
             <Header todos={todos}/>
             <Tabs todos={todos} selectedTab= {selectedTab} setSelectedTab={setSelectedTab}/>
-            <TodoList handleDeleteTodo={handleDeleteTodo} handleCompleteTodo={handleCompleteTodo} todos={todos} selectedTab= {selectedTab}/>
+            <TodoList handleDeleteTodo={handleDeleteTodo} handleCompleteTodo={handleCompleteTodo} handleStartEdit={handleStartEdit} todos={todos} selectedTab= {selectedTab}/>
             <TodoInput handleAddTodo={handleAddTodo}/> 
+            {editingIndex !== null && <EditModal value={editingValue} onChange={setEditingValue} handleCancelEdit={handleCancelEdit} handleSubmitEdit={handleSubmitEdit} editingIndex={editingIndex} />}
         </>
     )
 }
